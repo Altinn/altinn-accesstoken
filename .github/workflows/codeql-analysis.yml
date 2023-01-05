@@ -10,8 +10,10 @@ on:
     types: [opened, synchronize, reopened]
     paths:
     - 'src/**'
-  schedule:
-    - cron: '10 12 * * 4'
+  workflow_dispatch:
+    branches: [ main ]
+    paths:
+    - 'src/**'
 
 jobs:
   analyze:
