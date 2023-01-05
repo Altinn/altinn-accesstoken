@@ -32,7 +32,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    - name: Setup .NET 6.0.* SDK
+    - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '5.0.*'
