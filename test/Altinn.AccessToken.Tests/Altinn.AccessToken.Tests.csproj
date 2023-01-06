@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Altinn.Common.AccessToken\Altinn.Common.AccessToken.csproj" />
+  </ItemGroup>
+
 </Project>
