@@ -1,20 +1,19 @@
 using Altinn.Common.AccessToken.Services;
 
-namespace Altinn.AccessToken.Tests
+namespace Altinn.AccessToken.Tests;
+
+public class AccessTokenValidatorTests
 {
-    public class AccessTokenValidatorTests
+    [Fact]
+    public async Task Validate_InputIsNotValidatable_ReturnsFalse()
     {
-        [Fact]
-        public async Task AlwaysFalse_ThisTestDoesntTestAnything()
-        {
-            // Arrange
-            var target = new AccessTokenValidator(null, null);
+        // Arrange
+        var target = new AccessTokenValidator(null, null);
 
-            // Act
-            bool result = await target.Validate("notatoken");
+        // Act
+        bool result = await target.Validate("notatoken");
 
-            // Arrange
-            Assert.False(result);
-        }
+        // Arrange
+        Assert.False(result);
     }
 }
