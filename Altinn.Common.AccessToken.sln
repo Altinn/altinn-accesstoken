@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altinn.Common.AccessToken",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altinn.Common.AccessTokenClient", "src\Altinn.Common.AccessTokenClient\Altinn.Common.AccessTokenClient.csproj", "{454ED0A7-05B0-4D99-A05E-0B526219DC05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altinn.AccessToken.Tests", "test\Altinn.AccessToken.Tests\Altinn.AccessToken.Tests.csproj", "{03267570-7DE0-492F-BAF3-13DD82BEB249}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{454ED0A7-05B0-4D99-A05E-0B526219DC05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{454ED0A7-05B0-4D99-A05E-0B526219DC05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{454ED0A7-05B0-4D99-A05E-0B526219DC05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03267570-7DE0-492F-BAF3-13DD82BEB249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03267570-7DE0-492F-BAF3-13DD82BEB249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03267570-7DE0-492F-BAF3-13DD82BEB249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03267570-7DE0-492F-BAF3-13DD82BEB249}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
