@@ -1,5 +1,5 @@
-using Altinn.Common.AccessToken.Configuration;
 using System.Security.Cryptography.X509Certificates;
+using Altinn.Common.AccessToken.Configuration;
 
 namespace Altinn.Common.AccessTokenClient.Services
 {
