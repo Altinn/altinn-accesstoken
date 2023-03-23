@@ -17,8 +17,8 @@ namespace Altinn.Common.AccessTokenClient.Services
         /// <summary>
         /// Returns signing credentials to be used for signing a JWT
         /// </summary>
-        /// <param name="clientSettings">The client setting</param>
+        /// <param name="keyVaultSettings">The key vault setting</param>
         /// <returns>The signing credentials</returns>
-        SigningCredentials GetSigningCredentialsFromKeyVault(ClientSettings clientSettings);
+        SigningCredentials GetSigningCredentialsFromKeyVault(KeyVaultSettings keyVaultSettings);
     }
 }

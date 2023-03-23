@@ -50,9 +50,9 @@ namespace Altinn.Common.AccessTokenClient.Services
         /// Find the configured 
         /// </summary>
         /// <returns></returns>
-        public SigningCredentials GetSigningCredentialsFromKeyVault(ClientSettings clientSettings)
+        public SigningCredentials GetSigningCredentialsFromKeyVault(KeyVaultSettings keyVaultSettings)
         {
-            string certBase64 = GetCertificateAsync(clientSettings.KeyvaultCredentials.KeyVaultUri, clientSettings.KeyvaultCredentials.SecretId).Result;
+            string certBase64 = GetCertificateAsync(keyVaultSettings.KeyVaultUri, keyVaultSettings.SecretId).Result;
 
             X509Certificate2 cert = new X509Certificate2(Convert.FromBase64String(certBase64), (string)null, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
             return new X509SigningCredentials(cert, SecurityAlgorithms.RsaSha256);
