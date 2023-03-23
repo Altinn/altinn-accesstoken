@@ -1,3 +1,4 @@
+using Altinn.Common.AccessToken.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Altinn.Common.AccessTokenClient.Services
@@ -12,5 +13,12 @@ namespace Altinn.Common.AccessTokenClient.Services
         /// </summary>
         /// <returns>The signing credentials</returns>
         SigningCredentials GetSigningCredentials();
+
+        /// <summary>
+        /// Returns signing credentials to be used for signing a JWT
+        /// </summary>
+        /// <param name="clientSettings">The client setting</param>
+        /// <returns>The signing credentials</returns>
+        SigningCredentials GetSigningCredentialsFromKeyVault(ClientSettings clientSettings);
     }
 }

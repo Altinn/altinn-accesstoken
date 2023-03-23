@@ -1,3 +1,4 @@
+using Altinn.Common.AccessToken.Configuration;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Altinn.Common.AccessTokenClient.Services
@@ -23,5 +24,12 @@ namespace Altinn.Common.AccessTokenClient.Services
         /// <param name="certificate">Certificate to generate SigningCredentials</param>
         /// <returns>Accesstoken</returns>
         string GenerateAccessToken(string issuer, string app, X509Certificate2 certificate);
+
+        /// <summary>
+        /// Generates an access token for anyone needing to access platform components.
+        /// </summary>
+        /// <param name="clientSettings">Client's configuration to generate token</param>
+        /// <returns>Accesstoken</returns>
+        string GenerateAccessToken(ClientSettings clientSettings);
     }
 }

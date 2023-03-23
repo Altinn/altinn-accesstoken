@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.Caching;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using Altinn.Common.AccessToken.Configuration;
 using Altinn.Common.AccessTokenClient.Configuration;
 using Altinn.Common.AccessTokenClient.Constants;
 using Microsoft.Extensions.Logging;
@@ -66,6 +67,25 @@ namespace Altinn.Common.AccessTokenClient.Services
         public string GenerateAccessToken(string issuer, string app, X509Certificate2 certificate)
         {
             return GenerateAccessToken(issuer, app, new X509SigningCredentials(certificate, SecurityAlgorithms.RsaSha256));
+        }
+
+        /// <summary>
+        /// Generates a access token for anyone needing to access other platform components.
+        /// </summary>
+        /// <param name="clientSettings">Client's configuration to generate access token</param>
+        /// <returns>Accesstoken</returns>
+        public string GenerateAccessToken(ClientSettings clientSettings)
+        {
+            try
+            {
+                SigningCredentials credentials = _signingKeysResolver.GetSigningCredentialsFromKeyVault(clientSettings);
+                return GenerateAccessToken(clientSettings.Issuer, clientSettings.App, credentials);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Not able to generate access token");
+                return null;
+            }
         }
 
         private string GenerateAccessToken(string issuer, string app, SigningCredentials signingCredentials)

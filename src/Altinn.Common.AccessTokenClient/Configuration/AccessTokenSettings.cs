@@ -25,5 +25,10 @@ namespace Altinn.Common.AccessTokenClient.Configuration
         /// The name of the cert for access token signing
         /// </summary>
         public string AccessTokenSigningCertificateFileName { get; set; } = "accesstokencredentials.pfx";
+
+        /// <summary>
+        /// Cache lifetime for certs
+        /// </summary>
+        public int CacheCertLifetimeInSeconds { get; set; } = 3600;
     }
 }
