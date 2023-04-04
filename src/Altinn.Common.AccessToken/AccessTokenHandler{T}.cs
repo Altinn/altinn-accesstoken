@@ -25,7 +25,7 @@ namespace Altinn.Common.AccessToken
         /// <param name="signingKeysResolver">The resolver for signing keys</param>
         public AccessTokenHandler(
             IHttpContextAccessor httpContextAccessor,
-            ILogger<AccessTokenHandler> logger,
+            ILogger<AccessTokenHandlerBase<T>> logger,
             IOptions<AccessTokenSettings> accessTokenSettings,
             ISigningKeysResolver signingKeysResolver)
             : base(
