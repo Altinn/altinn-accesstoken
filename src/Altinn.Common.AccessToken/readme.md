@@ -42,3 +42,14 @@ FInal step is to register the handler in Program.cs
 ```cs
 services.AddSingleton<IAuthorizationHandler, AccessTokenHandler<CustomRequirement>>();
 ```
+
+#### Dependencies
+
+Implementations of `IHttpContextAccessor` and `ISigningKeysResolver` must be available through DI when using access token handler.
+
+Add the following to your servie registration in Program.cs
+
+```cs
+services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+services.AddSingleton<ISigningKeysResolver, SigningKeysResolver>();
+```
