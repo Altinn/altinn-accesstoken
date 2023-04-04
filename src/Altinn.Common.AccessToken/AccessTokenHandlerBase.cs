@@ -66,11 +66,10 @@ namespace Altinn.Common.AccessToken
             if (tokens.Count != 1)
             {
                 _logger.LogWarning("Missing Access token");
-                context.Fail();
                 return;
             }
 
-            bool isValid = false;
+            bool isValid;
             try
             {
                 isValid = await ValidateAccessToken(tokens[0]);
@@ -80,7 +79,6 @@ namespace Altinn.Common.AccessToken
                 _logger.LogWarning(ex, "Validation of Access Token Failed");
                 if (!_accessTokenSettings.DisableAccessTokenVerification)
                 {
-                    context.Fail();
                     return;
                 }
                 else
@@ -93,10 +91,6 @@ namespace Altinn.Common.AccessToken
             if (isValid)
             {
                 context.Succeed(requirement);
-            }
-            else
-            {
-                context.Fail();
             }
         }
 
