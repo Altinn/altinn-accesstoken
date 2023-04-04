@@ -48,7 +48,6 @@ namespace Altinn.Common.AccessToken
         /// </summary>
         /// <param name="context">The context</param>
         /// <param name="requirement">The requirement for the given operation</param>
-        /// <returns></returns>
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AccessTokenRequirement requirement)
         {
             StringValues tokens = GetAccessTokens();

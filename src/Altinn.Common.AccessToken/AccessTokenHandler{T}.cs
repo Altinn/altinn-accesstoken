@@ -28,7 +28,7 @@ namespace Altinn.Common.AccessToken
         private readonly ISigningKeysResolver _signingKeysResolver;
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="AccessTokenHandler{T}"/> class.
         /// </summary>
         /// <param name="httpContextAccessor">Default httpContext accessor</param>
         /// <param name="logger">The logger</param>
@@ -51,7 +51,6 @@ namespace Altinn.Common.AccessToken
         /// </summary>
         /// <param name="context">The context</param>
         /// <param name="requirement">The requirement for the given operation</param>
-        /// <returns></returns>
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, T requirement)
         {
             StringValues tokens = GetAccessTokens();
