@@ -56,7 +56,7 @@ namespace Altinn.Common.AccessToken
             StringValues tokens = GetAccessTokens();
             if (tokens.Count != 1 && _accessTokenSettings.DisableAccessTokenVerification)
             {
-                _logger.LogWarning("Token is missing and function is turned of");
+                _logger.LogWarning("Token is missing and function is turned off");
                 context.Succeed(requirement);
                 return;
             }
