@@ -36,11 +36,7 @@ namespace Altinn.Common.AccessToken
         {
         }
 
-        /// <summary>
-        /// Handles verification of AccessTokens. Enabled with Policy on API controllers 
-        /// </summary>
-        /// <param name="context">The context</param>
-        /// <param name="requirement">The requirement for the given operation</param>
+        /// <inheritdoc/>
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, T requirement)
         {
             await base.HandleRequirementAsync(context, requirement);

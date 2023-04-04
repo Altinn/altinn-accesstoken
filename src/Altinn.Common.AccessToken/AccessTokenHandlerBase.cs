@@ -18,7 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Altinn.Common.AccessToken
 {
     /// <summary>
-    /// Authorization handler to verify that request contains access token
+    /// Base class authorization handler to verify that request contains access token
     /// </summary>
     public class AccessTokenHandlerBase<T> : AuthorizationHandler<T>
         where T : IAuthorizationRequirement
@@ -29,7 +29,7 @@ namespace Altinn.Common.AccessToken
         private readonly ISigningKeysResolver _signingKeysResolver;
 
         /// <summary>
-        /// Default constructor
+        /// Initializes a new instance of the <see cref="AccessTokenHandlerBase{T}"/> class.
         /// </summary>
         /// <param name="httpContextAccessor">Default httpContext accessor</param>
         /// <param name="logger">The logger</param>
