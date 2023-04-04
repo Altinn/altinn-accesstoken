@@ -1,6 +1,5 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -156,16 +155,14 @@ namespace Altinn.Common.AccessToken
         private void SetAccessTokenCredential(string issuer, ClaimsPrincipal claimsPrincipal)
         {
             string appClaim = string.Empty;
-
-            claimsPrincipal.Claims.ToList().ForEach(claim =>
+            foreach (var claim in claimsPrincipal.Claims)
             {
                 if (claim.Type.Equals(AccessTokenClaimTypes.App))
                 {
                     appClaim = claim.Value;
+                    break;
                 }
-
-                return;
-            });
+            }
 
             _httpContextAccessor.HttpContext.Items.Add(_accessTokenSettings.AccessTokenHttpContextId, issuer + "/" + appClaim);
         }

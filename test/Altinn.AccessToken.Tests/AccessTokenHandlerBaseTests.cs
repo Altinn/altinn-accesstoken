@@ -1,3 +1,5 @@
+#nullable disable
+
 using System.Reflection;
 using System.Security.Claims;
 
@@ -70,7 +72,7 @@ namespace Altinn.AccessToken.Tests
             MethodInfo TestMethod,
             AuthorizationHandlerContext AuthzContext,
             IAuthorizationRequirement AuthzRequirement
-            ) GetTestClassAndMethod(Mock<IHttpContextAccessor>? httpContextMock = null)
+            ) GetTestClassAndMethod(Mock<IHttpContextAccessor> httpContextMock = null)
         {   // Arrange
 
             if (httpContextMock is null)
