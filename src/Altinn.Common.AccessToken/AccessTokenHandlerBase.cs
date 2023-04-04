@@ -162,8 +162,9 @@ namespace Altinn.Common.AccessToken
                 if (claim.Type.Equals(AccessTokenClaimTypes.App))
                 {
                     appClaim = claim.Value;
-                    return;
                 }
+
+                return;
             });
 
             _httpContextAccessor.HttpContext.Items.Add(_accessTokenSettings.AccessTokenHttpContextId, issuer + "/" + appClaim);
