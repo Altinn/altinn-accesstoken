@@ -39,21 +39,22 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
         IOptions<AccessTokenSettings> accessTokenSettings,
         ISigningKeysResolver signingKeysResolver)
     {
-            _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
-            _accessTokenSettings = accessTokenSettings.Value;
-            _signingKeysResolver = signingKeysResolver;
+        _httpContextAccessor = httpContextAccessor;
+        _logger = logger;
+        _accessTokenSettings = accessTokenSettings.Value;
+        _signingKeysResolver = signingKeysResolver;
     }
 
     /// <summary>
     /// Handles verification of AccessTokens. Enabled with Policy on API controllers 
     /// </summary>
-    /// <param name="context">The context</param>
-    /// <param name="requirement">The requirement for the given operation</param>
-    /// <returns></returns>
+    /// <param name="context">The current authorization handler context.</param>
+    /// <param name="requirement">The requirement for the given operation.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IAccessTokenRequirement requirement)
     {
         StringValues tokens = GetAccessTokens();
+
         if (tokens.Count != 1 && _accessTokenSettings.DisableAccessTokenVerification)
         {
             _logger.LogWarning("Token is missing and function is turned of");
@@ -61,41 +62,32 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
             return;
         }
 
-        // It should only be one accesss token
         if (tokens.Count != 1)
         {
-            _logger.LogWarning("Missing Access token");
-            context.Fail();
+            _logger.LogWarning("There should be one accesss token");
             return;
         }
 
-        bool isValid = false;
         try
         {
-            isValid = await ValidateAccessToken(tokens[0]);
+            bool isValid = await ValidateAccessToken(tokens[0]);
+
+            if (isValid)
+            {
+                context.Succeed(requirement);
+            }
+
+            return;
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Validation of Access Token Failed");
-            if (!_accessTokenSettings.DisableAccessTokenVerification)
-            {
-                context.Fail();
-                return;
-            }
-            else
+
+            if (_accessTokenSettings.DisableAccessTokenVerification)
             {
                 context.Succeed(requirement);
                 return;
             }
-        }
-
-        if (isValid)
-        {
-            context.Succeed(requirement);
-        }
-        else
-        {
-            context.Fail();
         }
     }
 
