@@ -76,8 +76,6 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
             {
                 context.Succeed(requirement);
             }
-
-            return;
         }
         catch (Exception ex)
         {
@@ -86,7 +84,6 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
             if (_accessTokenSettings.DisableAccessTokenVerification)
             {
                 context.Succeed(requirement);
-                return;
             }
         }
     }
