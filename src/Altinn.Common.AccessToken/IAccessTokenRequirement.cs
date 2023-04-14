@@ -1,0 +1,12 @@
+#nullable enable
+
+using Microsoft.AspNetCore.Authorization;
+
+namespace Altinn.Common.AccessToken;
+
+/// <summary>
+/// This interface describes the implementation of an access token requirement in policy based authorization.
+/// </summary>
+public interface IAccessTokenRequirement : IAuthorizationRequirement
+{
+}

@@ -1,17 +1,16 @@
-using Microsoft.AspNetCore.Authorization;
+#nullable enable
 
-namespace Altinn.Common.AccessToken
+namespace Altinn.Common.AccessToken;
+
+/// <summary>
+/// The requirement used in an authorization policy to verify an access token.
+/// </summary>
+public class AccessTokenRequirement : IAccessTokenRequirement
 {
     /// <summary>
-    /// The requirement used to enable access token verification
+    /// Initializes a new instance of the <see cref="AccessTokenRequirement"/> class.
     /// </summary>
-    public class AccessTokenRequirement : IAuthorizationRequirement
+    public AccessTokenRequirement()
     {
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public AccessTokenRequirement()
-        {
-        }
     }
 }
