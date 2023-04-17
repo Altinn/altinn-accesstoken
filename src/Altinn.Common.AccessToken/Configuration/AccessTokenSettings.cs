@@ -1,28 +1,29 @@
-namespace Altinn.Common.AccessToken.Configuration
+#nullable enable
+
+namespace Altinn.Common.AccessToken.Configuration;
+
+/// <summary>
+/// Settings for access token
+/// </summary>
+public class AccessTokenSettings
 {
     /// <summary>
-    /// Settings for access token
+    /// Disable access token verification
     /// </summary>
-    public class AccessTokenSettings
-    {
-        /// <summary>
-        /// Disable access token verification
-        /// </summary>
-        public bool DisableAccessTokenVerification { get; set;  }
+    public bool DisableAccessTokenVerification { get; set;  }
 
-        /// <summary>
-        /// The Access token headerId
-        /// </summary>
-        public string AccessTokenHeaderId { get; set; } = "PlatformAccessToken";
+    /// <summary>
+    /// The Access token headerId
+    /// </summary>
+    public string AccessTokenHeaderId { get; set; } = "PlatformAccessToken";
 
-        /// <summary>
-        /// Cache lifetime for certs
-        /// </summary>
-        public int CacheCertLifetimeInSeconds { get; set; } = 3600;
+    /// <summary>
+    /// Cache lifetime for certs
+    /// </summary>
+    public int CacheCertLifetimeInSeconds { get; set; } = 3600;
 
-        /// <summary>
-        /// ID for cache token in 
-        /// </summary>
-        public string AccessTokenHttpContextId { get; set; } = "accesstokencontextid";
-    }
+    /// <summary>
+    /// ID for cache token in 
+    /// </summary>
+    public string AccessTokenHttpContextId { get; set; } = "accesstokencontextid";
 }

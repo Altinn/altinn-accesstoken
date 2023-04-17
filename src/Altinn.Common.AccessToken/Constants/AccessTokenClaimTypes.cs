@@ -1,18 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+#nullable enable
 
-namespace Altinn.Common.AccessToken.Constants
+namespace Altinn.Common.AccessToken.Constants;
+
+/// <summary>
+/// Claimtypes used in access token
+/// </summary>
+public static class AccessTokenClaimTypes
 {
     /// <summary>
-    /// Claimtypes used in access token
+    /// The application
     /// </summary>
-    public static class AccessTokenClaimTypes
-    {
-        /// <summary>
-        /// The application
-        /// </summary>
-        public const string App = "urn:altinn:app";
-    }
+    public const string App = "urn:altinn:app";
 }
