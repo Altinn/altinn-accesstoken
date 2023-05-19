@@ -12,7 +12,7 @@ namespace Altinn.Common.AccessToken.Services;
 /// </summary>
 public class AccessTokenValidator : IAccessTokenValidator
 {
-    private readonly ISigningKeysResolver _signingKeysResolver;
+    private readonly IPublicSigningKeyProvider _signingKeysResolver;
     private readonly ILogger<IAccessTokenValidator> _logger;
 
     /// <summary>
@@ -21,7 +21,7 @@ public class AccessTokenValidator : IAccessTokenValidator
     /// <param name="signingKeysResolver">The signing keys resolver</param>
     /// <param name="logger">The logger</param>
     public AccessTokenValidator(
-        ISigningKeysResolver signingKeysResolver,
+        IPublicSigningKeyProvider signingKeysResolver,
         ILogger<IAccessTokenValidator> logger)
     {
         _signingKeysResolver = signingKeysResolver;

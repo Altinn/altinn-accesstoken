@@ -24,7 +24,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger _logger;
     private readonly AccessTokenSettings _accessTokenSettings;
-    private readonly ISigningKeysResolver _signingKeysResolver;
+    private readonly IPublicSigningKeyProvider _signingKeysResolver;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AccessTokenHandler"/> class with the given parameters.
@@ -37,7 +37,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
         IHttpContextAccessor httpContextAccessor,
         ILogger<AccessTokenHandler> logger,
         IOptions<AccessTokenSettings> accessTokenSettings,
-        ISigningKeysResolver signingKeysResolver)
+        IPublicSigningKeyProvider signingKeysResolver)
     {
         _httpContextAccessor = httpContextAccessor;
         _logger = logger;

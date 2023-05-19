@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Altinn.AccessToken.Tests.Mock
 {
-    public class SigningKeyResolverMock : ISigningKeysResolver
+    public class SigningKeyResolverMock : IPublicSigningKeyProvider
     {
         public SigningCredentials GetSigningCredentials()
         {

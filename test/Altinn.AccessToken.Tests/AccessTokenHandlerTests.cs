@@ -1,4 +1,7 @@
+using System.Security.Claims;
+
 using Altinn.AccessToken.Tests.Mock;
+
 using Altinn.Common.AccessToken;
 using Altinn.Common.AccessToken.Configuration;
 using Altinn.Common.AccessToken.Services;
@@ -7,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Security.Claims;
 
 namespace Altinn.AccessToken.Tests
 {
@@ -161,7 +163,7 @@ namespace Altinn.AccessToken.Tests
 
             var context = new AuthorizationHandlerContext(_reqs, PrincipalUtil.CreateClaimsPrincipal(), null);
 
-            var signingKeysResolver = new Mock<ISigningKeysResolver>();
+            var signingKeysResolver = new Mock<IPublicSigningKeyProvider>();
             signingKeysResolver.Setup(s => s.GetSigningKeys(It.IsAny<string>())).ThrowsAsync(new Exception("omg!"));
 
             var target = new AccessTokenHandler(
@@ -191,7 +193,7 @@ namespace Altinn.AccessToken.Tests
 
             var context = new AuthorizationHandlerContext(_reqs, PrincipalUtil.CreateClaimsPrincipal(), null);
 
-            var signingKeysResolver = new Mock<ISigningKeysResolver>();
+            var signingKeysResolver = new Mock<IPublicSigningKeyProvider>();
             signingKeysResolver.Setup(s => s.GetSigningKeys(It.IsAny<string>())).ThrowsAsync(new Exception("omg!"));
 
             var target = new AccessTokenHandler(
