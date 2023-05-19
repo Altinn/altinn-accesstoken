@@ -18,7 +18,7 @@ namespace Altinn.AccessToken.Tests
         private readonly Mock<IHttpContextAccessor> _httpContextAccessor = new();
         private readonly Mock<ILogger<AccessTokenHandler>> _logger = new();
         private readonly Mock<IOptions<AccessTokenSettings>> _options = new();
-        private readonly SigningKeyResolverMock _signingKeysResolver = new();
+        private readonly PublicSigningKeyProviderMock _signingKeysResolver = new();
 
         private readonly List<IAuthorizationRequirement> _reqs = new List<IAuthorizationRequirement>
         {
@@ -163,11 +163,11 @@ namespace Altinn.AccessToken.Tests
 
             var context = new AuthorizationHandlerContext(_reqs, PrincipalUtil.CreateClaimsPrincipal(), null);
 
-            var signingKeysResolver = new Mock<IPublicSigningKeyProvider>();
-            signingKeysResolver.Setup(s => s.GetSigningKeys(It.IsAny<string>())).ThrowsAsync(new Exception("omg!"));
+            var publicKeyProvider = new Mock<IPublicSigningKeyProvider>();
+            publicKeyProvider.Setup(s => s.GetSigningKeys(It.IsAny<string>())).ThrowsAsync(new Exception("omg!"));
 
             var target = new AccessTokenHandler(
-                _httpContextAccessor.Object, _logger.Object, _options.Object, signingKeysResolver.Object);
+                _httpContextAccessor.Object, _logger.Object, _options.Object, publicKeyProvider.Object);
 
             // Act
             await target.HandleAsync(context);
@@ -193,11 +193,11 @@ namespace Altinn.AccessToken.Tests
 
             var context = new AuthorizationHandlerContext(_reqs, PrincipalUtil.CreateClaimsPrincipal(), null);
 
-            var signingKeysResolver = new Mock<IPublicSigningKeyProvider>();
-            signingKeysResolver.Setup(s => s.GetSigningKeys(It.IsAny<string>())).ThrowsAsync(new Exception("omg!"));
+            var publicKeyProvider = new Mock<IPublicSigningKeyProvider>();
+            publicKeyProvider.Setup(s => s.GetSigningKeys(It.IsAny<string>())).ThrowsAsync(new Exception("omg!"));
 
             var target = new AccessTokenHandler(
-                _httpContextAccessor.Object, _logger.Object, _options.Object, signingKeysResolver.Object);
+                _httpContextAccessor.Object, _logger.Object, _options.Object, publicKeyProvider.Object);
 
             // Act
             await target.HandleAsync(context);

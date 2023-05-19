@@ -6,13 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Altinn.AccessToken.Tests.Mock
 {
-    public class SigningKeyResolverMock : IPublicSigningKeyProvider
+    public class PublicSigningKeyProviderMock : IPublicSigningKeyProvider
     {
-        public SigningCredentials GetSigningCredentials()
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IEnumerable<SecurityKey>> GetSigningKeys(string issuer)
         {
             List<SecurityKey> signingKeys = new List<SecurityKey>();

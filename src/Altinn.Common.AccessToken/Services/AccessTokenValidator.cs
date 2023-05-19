@@ -12,19 +12,19 @@ namespace Altinn.Common.AccessToken.Services;
 /// </summary>
 public class AccessTokenValidator : IAccessTokenValidator
 {
-    private readonly IPublicSigningKeyProvider _signingKeysResolver;
+    private readonly IPublicSigningKeyProvider _publicSigningKeyProvider;
     private readonly ILogger<IAccessTokenValidator> _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AccessTokenValidator"/> class.
     /// </summary>
-    /// <param name="signingKeysResolver">The signing keys resolver</param>
+    /// <param name="publicSigningKeyProvider">The signing keys resolver</param>
     /// <param name="logger">The logger</param>
     public AccessTokenValidator(
-        IPublicSigningKeyProvider signingKeysResolver,
+        IPublicSigningKeyProvider publicSigningKeyProvider,
         ILogger<IAccessTokenValidator> logger)
     {
-        _signingKeysResolver = signingKeysResolver;
+        _publicSigningKeyProvider = publicSigningKeyProvider;
         _logger = logger;
     }
 
@@ -66,7 +66,7 @@ public class AccessTokenValidator : IAccessTokenValidator
             ClockSkew = TimeSpan.FromSeconds(60)
         };
 
-        tokenValidationParameters.IssuerSigningKeys = await _signingKeysResolver.GetSigningKeys(issuer);
+        tokenValidationParameters.IssuerSigningKeys = await _publicSigningKeyProvider.GetSigningKeys(issuer);
         return tokenValidationParameters;
     }
 }

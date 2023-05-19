@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -21,7 +21,6 @@ namespace Altinn.Common.AccessToken.Services;
 public class PublicSigningKeyProvider : IPublicSigningKeyProvider
 {
     private readonly AccessTokenSettings _accessTokenSettings;
-    private readonly KeyVaultSettings _keyVaultSettings;
     private readonly IMemoryCache _memoryCache;
     private readonly SecretClient _secretClient;
 
@@ -38,17 +37,16 @@ public class PublicSigningKeyProvider : IPublicSigningKeyProvider
         IMemoryCache memoryCache)
     {
         _accessTokenSettings = accessTokenSettings.Value;
-        _keyVaultSettings = keyVaultSettings.Value;
         _memoryCache = memoryCache;
 
         if (Environment.GetEnvironmentVariable("AZURE_CLIENT_ID") is null)
         {
-            Environment.SetEnvironmentVariable("AZURE_CLIENT_ID", _keyVaultSettings.ClientId);
-            Environment.SetEnvironmentVariable("AZURE_CLIENT_SECRET", _keyVaultSettings.ClientSecret);
-            Environment.SetEnvironmentVariable("AZURE_TENANT_ID", _keyVaultSettings.TenantId);
+            Environment.SetEnvironmentVariable("AZURE_CLIENT_ID", keyVaultSettings.Value.ClientId);
+            Environment.SetEnvironmentVariable("AZURE_CLIENT_SECRET", keyVaultSettings.Value.ClientSecret);
+            Environment.SetEnvironmentVariable("AZURE_TENANT_ID", keyVaultSettings.Value.TenantId);
         }
 
-        _secretClient = new SecretClient(new Uri(_keyVaultSettings.SecretUri), new DefaultAzureCredential());
+        _secretClient = new SecretClient(new Uri(keyVaultSettings.Value.SecretUri), new DefaultAzureCredential());
     }
 
     /// <summary>

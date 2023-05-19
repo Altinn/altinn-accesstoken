@@ -24,7 +24,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger _logger;
     private readonly AccessTokenSettings _accessTokenSettings;
-    private readonly IPublicSigningKeyProvider _signingKeysResolver;
+    private readonly IPublicSigningKeyProvider _publicSigningKeyProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AccessTokenHandler"/> class with the given parameters.
@@ -32,17 +32,17 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
     /// <param name="httpContextAccessor">A service that provides access to the current HttpContext.</param>
     /// <param name="logger">A logger</param>
     /// <param name="accessTokenSettings">The access token settings</param>
-    /// <param name="signingKeysResolver">The resolver for signing keys</param>
+    /// <param name="publicSigningKeyProvider">The resolver for signing keys</param>
     public AccessTokenHandler(
         IHttpContextAccessor httpContextAccessor,
         ILogger<AccessTokenHandler> logger,
         IOptions<AccessTokenSettings> accessTokenSettings,
-        IPublicSigningKeyProvider signingKeysResolver)
+        IPublicSigningKeyProvider publicSigningKeyProvider)
     {
         _httpContextAccessor = httpContextAccessor;
         _logger = logger;
         _accessTokenSettings = accessTokenSettings.Value;
-        _signingKeysResolver = signingKeysResolver;
+        _publicSigningKeyProvider = publicSigningKeyProvider;
     }
 
     /// <summary>
@@ -133,7 +133,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
             ClockSkew = TimeSpan.Zero
         };
 
-        tokenValidationParameters.IssuerSigningKeys = await _signingKeysResolver.GetSigningKeys(issuer);
+        tokenValidationParameters.IssuerSigningKeys = await _publicSigningKeyProvider.GetSigningKeys(issuer);
         return tokenValidationParameters;
     }
 
