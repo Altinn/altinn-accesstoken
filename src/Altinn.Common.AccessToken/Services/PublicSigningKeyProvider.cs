@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
@@ -18,6 +19,7 @@ namespace Altinn.Common.AccessToken.Services;
 /// given issuer in a key Vault. The public key is cached for a configurable time to avoid unnecessary
 /// calls to the key vault.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class PublicSigningKeyProvider : IPublicSigningKeyProvider
 {
     private readonly AccessTokenSettings _accessTokenSettings;
