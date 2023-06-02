@@ -11,7 +11,7 @@
     <!-- NuGet package properties -->
     <IsPackable>true</IsPackable>
     <PackageId>Altinn.Common.AccessToken</PackageId>
-    <PackageVersion>2.0.0-preview.1</PackageVersion>
+    <PackageVersion>2.0.0</PackageVersion>
     <PackageTags>Altinn;AccessToken</PackageTags>
     <Description>
       Package to verify Access Tokens from client. Require public certificates stored in Azure KeyVault.
