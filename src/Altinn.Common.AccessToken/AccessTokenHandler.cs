@@ -70,7 +70,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
 
         try
         {
-            bool isValid = await ValidateAccessToken(tokens[0]);
+            bool isValid = await ValidateAccessToken(tokens[0], requirement.ApprovedIssuers);
 
             if (isValid)
             {
@@ -92,8 +92,9 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
     /// This validates the access token available in 
     /// </summary>
     /// <param name="token">The access token</param>
+    /// <param name="ApprovedIssuers">The list of approved issuers</param>
     /// <returns></returns>
-    private async Task<bool> ValidateAccessToken(string token)
+    private async Task<bool> ValidateAccessToken(string token, string[] ApprovedIssuers)
     {
         JwtSecurityTokenHandler validator = new JwtSecurityTokenHandler();
 
@@ -104,6 +105,13 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
 
         // Read JWT token to extract Issuer
         JwtSecurityToken jwt = validator.ReadJwtToken(token);
+
+        // When no exact match on token issuer against approved issuers
+        if (ApprovedIssuers.Length > 0 && Array.IndexOf(ApprovedIssuers, jwt.Issuer) < 0)
+        {
+            return false;
+        }
+
         TokenValidationParameters validationParameters = await GetTokenValidationParameters(jwt.Issuer);
 
         SecurityToken validatedToken;
