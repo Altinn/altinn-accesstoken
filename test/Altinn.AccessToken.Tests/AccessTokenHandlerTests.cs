@@ -206,15 +206,17 @@ namespace Altinn.AccessToken.Tests
             Assert.True(context.HasSucceeded);
         }
 
-        [Fact]
-        public async Task HandleAsyncTest_SingleApprovedTokenIssuerEqualToMainTokenIssuer_ResultSuccessful()
+        [Theory]
+        [InlineData("ttd", "ttd", true)]
+        [InlineData("ttd", "ttd1", false)]
+        public async Task HandleAsyncTest_WithSingleApprovedTokenIssuer(string tokenIssuer, string specifiedTokenIssuer, bool result)
         {
             // Arrange
             AccessTokenSettings accessTokenSettings = new();
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), "ttd");
+            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), tokenIssuer);
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers.Add("PlatformAccessToken", accessToken);
@@ -223,7 +225,7 @@ namespace Altinn.AccessToken.Tests
 
             List<IAuthorizationRequirement> _reqsWithSingleSpecifiedIssuer = new List<IAuthorizationRequirement>
             {
-                new AccessTokenRequirement("ttd")
+                new AccessTokenRequirement(specifiedTokenIssuer)
             };
 
             var context = new AuthorizationHandlerContext(_reqsWithSingleSpecifiedIssuer, PrincipalUtil.CreateClaimsPrincipal(), null);
@@ -235,18 +237,20 @@ namespace Altinn.AccessToken.Tests
             await target.HandleAsync(context);
 
             // Assert
-            Assert.True(context.HasSucceeded);
+            Assert.Equal(result, context.HasSucceeded);
         }
 
-        [Fact]
-        public async Task HandleAsyncTest_SingleApprovedTokenIssuerNotEqualToMainTokenIssuer_ResultNotSuccessful()
+        [Theory]
+        [InlineData("ttd", new string[]{ "ttd", "ttd1", "ttd2" }, true)]
+        [InlineData("ttd", new string[]{ "ttd0", "ttd1", "ttd2" }, false)]
+        public async Task HandleAsyncTest_WithMultipleApprovedTokenIssuer(string tokenIssuer, string[] specifiedTokenIssuers, bool result)
         {
             // Arrange
             AccessTokenSettings accessTokenSettings = new();
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), "ttd");
+            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), tokenIssuer);
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers.Add("PlatformAccessToken", accessToken);
@@ -255,7 +259,7 @@ namespace Altinn.AccessToken.Tests
 
             List<IAuthorizationRequirement> _reqsWithSingleSpecifiedIssuer = new List<IAuthorizationRequirement>
             {
-                new AccessTokenRequirement("ttd1")
+                new AccessTokenRequirement(specifiedTokenIssuers)
             };
 
             var context = new AuthorizationHandlerContext(_reqsWithSingleSpecifiedIssuer, PrincipalUtil.CreateClaimsPrincipal(), null);
@@ -267,85 +271,7 @@ namespace Altinn.AccessToken.Tests
             await target.HandleAsync(context);
 
             // Assert
-            Assert.False(context.HasSucceeded);
-        }
-
-        [Fact]
-        public async Task HandleAsyncTest_MultipleApprovedTokenIssuerAndMainTokenIssuerInThem_ResultSuccessful()
-        {
-            // Arrange
-            AccessTokenSettings accessTokenSettings = new();
-            _options.Setup(s => s.Value).Returns(accessTokenSettings);
-
-            ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), "ttd");
-
-            DefaultHttpContext httpContext = new DefaultHttpContext();
-            httpContext.Request.Headers.Add("PlatformAccessToken", accessToken);
-
-            _httpContextAccessor.Setup(s => s.HttpContext).Returns(httpContext);
-
-            List<IAuthorizationRequirement> _reqsWithMultipleSpecifiedIssuers = new List<IAuthorizationRequirement>
-            {
-                new AccessTokenRequirement(
-                    new string[]
-                    {
-                        "ttd",
-                        "ttd1",
-                        "ttd2",
-                    }
-                )
-            };
-
-            var context = new AuthorizationHandlerContext(_reqsWithMultipleSpecifiedIssuers, PrincipalUtil.CreateClaimsPrincipal(), null);
-
-            var target = new AccessTokenHandler(
-                _httpContextAccessor.Object, _logger.Object, _options.Object, _signingKeysResolver);
-
-            // Act
-            await target.HandleAsync(context);
-
-            // Assert
-            Assert.True(context.HasSucceeded);
-        }
-
-        [Fact]
-        public async Task HandleAsyncTest_MultipleApprovedTokenIssuerAndMainTokenIssuerNotInThem_ResultNotSuccessful()
-        {
-            // Arrange
-            AccessTokenSettings accessTokenSettings = new();
-            _options.Setup(s => s.Value).Returns(accessTokenSettings);
-
-            ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), "ttd");
-
-            DefaultHttpContext httpContext = new DefaultHttpContext();
-            httpContext.Request.Headers.Add("PlatformAccessToken", accessToken);
-
-            _httpContextAccessor.Setup(s => s.HttpContext).Returns(httpContext);
-
-            List<IAuthorizationRequirement> _reqsWithMultipleSpecifiedIssuers = new List<IAuthorizationRequirement>
-            {
-                new AccessTokenRequirement(
-                    new string[]
-                    {
-                        "ttd0",
-                        "ttd1",
-                        "ttd2",
-                    }
-                )
-            };
-
-            var context = new AuthorizationHandlerContext(_reqsWithMultipleSpecifiedIssuers, PrincipalUtil.CreateClaimsPrincipal(), null);
-
-            var target = new AccessTokenHandler(
-                _httpContextAccessor.Object, _logger.Object, _options.Object, _signingKeysResolver);
-
-            // Act
-            await target.HandleAsync(context);
-
-            // Assert
-            Assert.False(context.HasSucceeded);
+            Assert.Equal(result, context.HasSucceeded);
         }
     }
 }
