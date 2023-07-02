@@ -4,14 +4,14 @@
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <OutputType>Library</OutputType>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
+    <AssemblyVersion>3.0.0</AssemblyVersion>
+    <FileVersion>3.0.0</FileVersion>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
 
     <!-- NuGet package properties -->
     <IsPackable>true</IsPackable>
     <PackageId>Altinn.Common.AccessToken</PackageId>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>3.0.0</PackageVersion>
     <PackageTags>Altinn;AccessToken</PackageTags>
     <Description>
       Package to verify Access Tokens from client. Require public certificates stored in Azure KeyVault.
