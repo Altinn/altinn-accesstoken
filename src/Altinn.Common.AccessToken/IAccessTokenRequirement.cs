@@ -9,4 +9,8 @@ namespace Altinn.Common.AccessToken;
 /// </summary>
 public interface IAccessTokenRequirement : IAuthorizationRequirement
 {
+    /// <summary>
+    /// Gets the list of approved issuers to validate against.
+    /// </summary>
+    public string[] ApprovedIssuers { get; }
 }
