@@ -7,7 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altinn.Common.AccessToken",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altinn.Common.AccessTokenClient", "src\Altinn.Common.AccessTokenClient\Altinn.Common.AccessTokenClient.csproj", "{454ED0A7-05B0-4D99-A05E-0B526219DC05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altinn.AccessToken.Tests", "test\Altinn.AccessToken.Tests\Altinn.AccessToken.Tests.csproj", "{03267570-7DE0-492F-BAF3-13DD82BEB249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altinn.AccessToken.Tests", "test\Altinn.AccessToken.Tests\Altinn.AccessToken.Tests.csproj", "{03267570-7DE0-492F-BAF3-13DD82BEB249}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8F70D999-73FF-48F1-B254-869B4121261D}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
