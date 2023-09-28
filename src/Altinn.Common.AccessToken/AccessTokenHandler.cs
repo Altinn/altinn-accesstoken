@@ -116,7 +116,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
 
         TokenValidationParameters validationParameters = await GetTokenValidationParameters(jwt.Issuer);
 
-        var validationResult = await validator.ValidateTokenAsync(token, validationParameters);
+        TokenValidationResult validationResult = await validator.ValidateTokenAsync(token, validationParameters);
 
         if (validationResult.IsValid)
         {
