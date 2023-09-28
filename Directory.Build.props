@@ -12,12 +12,11 @@
     <LangVersion>10.0</LangVersion>
   </PropertyGroup>
   
-  <Target Name="AssemblyVersionTarget" AfterTargets="MinVer" Condition="'$(BuildNumber)' != ''">
+  <Target Name="AssemblyVersionTarget" AfterTargets="MinVer" Condition="'$(MinVerVersion)'!='' AND '$(BuildNumber)' != ''">
     <PropertyGroup>
       <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(BuildNumber)</FileVersion>
       <Version>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(BuildNumber)</Version>
       <AssemblyVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(BuildNumber)</AssemblyVersion>
-      <MinVerTagPrefix Condition="'$(MinVerTagPrefix)' == ''">$(PackageId).</MinVerTagPrefix>
     </PropertyGroup>
   </Target>
   
