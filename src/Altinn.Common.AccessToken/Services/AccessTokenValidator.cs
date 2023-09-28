@@ -41,16 +41,14 @@ public class AccessTokenValidator : IAccessTokenValidator
         JwtSecurityToken jwt = validator.ReadJwtToken(token);
         TokenValidationParameters validationParameters = await GetTokenValidationParameters(jwt.Issuer);
 
-        try
+        var validationResult = await validator.ValidateTokenAsync(token, validationParameters);
+
+        if (validationResult.IsValid)
         {
-            validator.ValidateToken(token, validationParameters, out _);
             return true;
         }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Failed to validate token from issuer {Issuer}.", jwt.Issuer);
-        }
 
+        _logger.LogWarning(validationResult.Exception, "Failed to validate token from issuer {Issuer}.", jwt.Issuer);
         return false;
     }
 
