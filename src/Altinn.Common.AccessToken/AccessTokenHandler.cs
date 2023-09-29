@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -116,15 +114,18 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
 
         TokenValidationParameters validationParameters = await GetTokenValidationParameters(jwt.Issuer);
 
-        TokenValidationResult validationResult = await validator.ValidateTokenAsync(token, validationParameters);
-
-        if (validationResult.IsValid)
+        SecurityToken validatedToken;
+        try
         {
-            SetAccessTokenCredential(validationResult.Issuer, validationResult.ClaimsIdentity.Claims);
+            ClaimsPrincipal prinicpal = validator.ValidateToken(token, validationParameters, out validatedToken);
+            SetAccessTokenCredential(validatedToken.Issuer, prinicpal);
             return true;
         }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to validate token from issuer {Issuer}.", jwt.Issuer);
+        }
 
-        _logger.LogWarning(validationResult.Exception, "Failed to validate token from issuer {Issuer}.", jwt.Issuer);
         return false;
     }
 
@@ -154,9 +155,17 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
         return StringValues.Empty;
     }
 
-    private void SetAccessTokenCredential(string issuer, IEnumerable<Claim> claims)
+    private void SetAccessTokenCredential(string issuer, ClaimsPrincipal claimsPrincipal)
     {
-        string appClaim = claims.FirstOrDefault(claim => claim.Type.Equals(AccessTokenClaimTypes.App))?.Value;
+        string appClaim = string.Empty;
+        foreach (Claim claim in claimsPrincipal.Claims)
+        {
+            if (claim.Type.Equals(AccessTokenClaimTypes.App))
+            {
+                appClaim = claim.Value;
+                break;
+            }
+        }
 
         _httpContextAccessor.HttpContext.Items.Add(_accessTokenSettings.AccessTokenHttpContextId, issuer + "/" + appClaim);
     }
