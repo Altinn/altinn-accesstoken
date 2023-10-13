@@ -223,12 +223,12 @@ namespace Altinn.AccessToken.Tests
 
             _httpContextAccessor.Setup(s => s.HttpContext).Returns(httpContext);
 
-            List<IAuthorizationRequirement> _reqsWithSingleSpecifiedIssuer = new List<IAuthorizationRequirement>
+            List<IAuthorizationRequirement> reqsWithSingleSpecifiedIssuer = new List<IAuthorizationRequirement>
             {
                 new AccessTokenRequirement(specifiedTokenIssuer)
             };
 
-            var context = new AuthorizationHandlerContext(_reqsWithSingleSpecifiedIssuer, PrincipalUtil.CreateClaimsPrincipal(), null);
+            var context = new AuthorizationHandlerContext(reqsWithSingleSpecifiedIssuer, PrincipalUtil.CreateClaimsPrincipal(), null);
 
             var target = new AccessTokenHandler(
                 _httpContextAccessor.Object, _logger.Object, _options.Object, _signingKeysResolver);
@@ -241,8 +241,8 @@ namespace Altinn.AccessToken.Tests
         }
 
         [Theory]
-        [InlineData("ttd", new string[]{ "ttd", "ttd1", "ttd2" }, true)]
-        [InlineData("ttd", new string[]{ "ttd0", "ttd1", "ttd2" }, false)]
+        [InlineData("ttd", new string[] { "ttd", "ttd1", "ttd2" }, true)]
+        [InlineData("ttd", new string[] { "ttd0", "ttd1", "ttd2" }, false)]
         public async Task HandleAsyncTest_WithMultipleApprovedTokenIssuer(string tokenIssuer, string[] specifiedTokenIssuers, bool result)
         {
             // Arrange
@@ -257,12 +257,12 @@ namespace Altinn.AccessToken.Tests
 
             _httpContextAccessor.Setup(s => s.HttpContext).Returns(httpContext);
 
-            List<IAuthorizationRequirement> _reqsWithSingleSpecifiedIssuer = new List<IAuthorizationRequirement>
+            List<IAuthorizationRequirement> reqsWithSingleSpecifiedIssuer = new List<IAuthorizationRequirement>
             {
                 new AccessTokenRequirement(specifiedTokenIssuers)
             };
 
-            var context = new AuthorizationHandlerContext(_reqsWithSingleSpecifiedIssuer, PrincipalUtil.CreateClaimsPrincipal(), null);
+            var context = new AuthorizationHandlerContext(reqsWithSingleSpecifiedIssuer, PrincipalUtil.CreateClaimsPrincipal(), null);
 
             var target = new AccessTokenHandler(
                 _httpContextAccessor.Object, _logger.Object, _options.Object, _signingKeysResolver);
