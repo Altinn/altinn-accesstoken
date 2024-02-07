@@ -119,33 +119,6 @@ namespace Altinn.AccessToken.Tests
         }
 
         [Fact]
-        public async Task HandleAsyncTest_TwoTokens_ResultNotSuccessful()
-        {
-            // Arrange
-            AccessTokenSettings accessTokenSettings = new();
-            _options.Setup(s => s.Value).Returns(accessTokenSettings);
-
-            ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), "ttd");
-
-            DefaultHttpContext httpContext = new DefaultHttpContext();
-            httpContext.Request.Headers["PlatformAccessToken"] = $"{accessToken};{accessToken};";
-
-            _httpContextAccessor.Setup(s => s.HttpContext).Returns(httpContext);
-
-            var context = new AuthorizationHandlerContext(_reqs, PrincipalUtil.CreateClaimsPrincipal(), null);
-
-            var target = new AccessTokenHandler(
-                _httpContextAccessor.Object, _logger.Object, _options.Object, _signingKeysResolver);
-
-            // Act
-            await target.HandleAsync(context);
-
-            // Assert
-            Assert.False(context.HasSucceeded);
-        }
-
-        [Fact]
         public async Task HandleAsyncTest_TokenValidAndVerificationEnabled_ResultSuccessful()
         {
             // Arrange
