@@ -55,14 +55,20 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
     {
         StringValues tokens = GetAccessTokens();
 
-        if (tokens.Count != 1 && _accessTokenSettings.DisableAccessTokenVerification)
+        if (tokens.Count == 0 && _accessTokenSettings.DisableAccessTokenVerification)
         {
-            _logger.LogWarning("Token is missing and function is turned of");
+            _logger.LogWarning("Token is missing and function is turned off");
             context.Succeed(requirement);
             return;
         }
 
-        if (tokens.Count != 1)
+        if (tokens.Count == 0)
+        {
+            _logger.LogInformation("There is no access token");
+            return;
+        }
+        
+        if (tokens.Count > 1)
         {
             _logger.LogWarning("There should be one accesss token");
             return;
