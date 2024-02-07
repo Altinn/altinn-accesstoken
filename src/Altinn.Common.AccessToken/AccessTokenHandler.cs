@@ -57,7 +57,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
 
         if (tokens.Count == 0 && _accessTokenSettings.DisableAccessTokenVerification)
         {
-            _logger.LogWarning("Token is missing and function is turned off");
+            _logger.LogInformation("Token is missing and function is turned off");
             context.Succeed(requirement);
             return;
         }
