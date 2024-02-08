@@ -92,7 +92,7 @@ namespace Altinn.AccessToken.Tests
         }
 
         [Fact]
-        public async Task HandleAsyncTest_TokenExpiredAndVerificationEnabled_ResultSuccessful()
+        public async Task HandleAsyncTest_TokenExpiredAndVerificationEnabled_ResultNotSuccessful()
         {
             // Arrange
             AccessTokenSettings accessTokenSettings = new();
