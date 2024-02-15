@@ -16,6 +16,11 @@ namespace Altinn.Common.AccessTokenClient.Configuration
         public int TokenLifetimeInSeconds { get; set; } = 300;
 
         /// <summary>
+        /// The lifetime for a certificate
+        /// </summary>
+        public int CertificateLifetimeInSeconds { get; set; } = 3600;
+
+        /// <summary>
         /// Specify the number of seconds to add (or subtract) to the current time when determining
         /// when the access token should be considered valid
         /// </summary>
