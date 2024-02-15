@@ -24,6 +24,7 @@ namespace Altinn.Common.AccessTokenClient.Services
         public SigningCredentialsResolver(IOptions<AccessTokenSettings> accessTokenSettings)
         {
             _accessTokenSettings = accessTokenSettings.Value;
+            _expiryTime = DateTime.MinValue;
         }
 
         /// <summary>
