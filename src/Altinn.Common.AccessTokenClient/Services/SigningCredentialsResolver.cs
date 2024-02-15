@@ -14,7 +14,7 @@ namespace Altinn.Common.AccessTokenClient.Services
     {
         private readonly AccessTokenSettings _accessTokenSettings;
         private static X509Certificate2 _cert = null;
-        private static DateTime _expiryTime;
+        private static DateTime _expiryTime = DateTime.MinValue;
         private static readonly object _lockObject = new object();
 
         /// <summary>
@@ -24,7 +24,6 @@ namespace Altinn.Common.AccessTokenClient.Services
         public SigningCredentialsResolver(IOptions<AccessTokenSettings> accessTokenSettings)
         {
             _accessTokenSettings = accessTokenSettings.Value;
-            _expiryTime = DateTime.MinValue;
         }
 
         /// <summary>
