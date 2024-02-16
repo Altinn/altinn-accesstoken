@@ -14,7 +14,7 @@ namespace Altinn.Common.AccessTokenClient.Services
     {
         private readonly AccessTokenSettings _accessTokenSettings;
         private static X509Certificate2 _cert = null;
-        private static DateTime _expiryTime = DateTime.MinValue;
+        private static DateTime _reloadTime = DateTime.MinValue;
         private static readonly object _lockObject = new object();
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Altinn.Common.AccessTokenClient.Services
         // Static method to make sonarcloud happy (not update static field from instance method)
         private static SigningCredentials GetSigningCredentials(AccessTokenSettings accessTokenSettings)
         {
-            if (_expiryTime > DateTime.UtcNow && _cert != null)
+            if (_reloadTime > DateTime.UtcNow && _cert != null)
             {
                 return new X509SigningCredentials(_cert, SecurityAlgorithms.RsaSha256);
             }
@@ -48,7 +48,7 @@ namespace Altinn.Common.AccessTokenClient.Services
                 string basePath = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
                 string certPath = basePath + $"{accessTokenSettings.AccessTokenSigningKeysFolder}{accessTokenSettings.AccessTokenSigningCertificateFileName}";
                 _cert = new X509Certificate2(certPath);
-                _expiryTime = DateTime.UtcNow.AddSeconds(accessTokenSettings.CertificateLifetimeInSeconds - 5); // Set the expiry time to one hour from now
+                _reloadTime = DateTime.UtcNow.AddSeconds(accessTokenSettings.CertificateLifetimeInSeconds); // Set the expiry time to one hour from now
             }
 
             return new X509SigningCredentials(_cert, SecurityAlgorithms.RsaSha256);
