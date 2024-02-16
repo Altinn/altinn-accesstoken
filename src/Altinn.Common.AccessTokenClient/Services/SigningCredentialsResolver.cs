@@ -48,7 +48,7 @@ namespace Altinn.Common.AccessTokenClient.Services
                 string basePath = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
                 string certPath = basePath + $"{accessTokenSettings.AccessTokenSigningKeysFolder}{accessTokenSettings.AccessTokenSigningCertificateFileName}";
                 _cert = new X509Certificate2(certPath);
-                _reloadTime = DateTime.UtcNow.AddSeconds(accessTokenSettings.CertificateLifetimeInSeconds); // Set the expiry time to one hour from now
+                _reloadTime = DateTime.UtcNow.AddSeconds(accessTokenSettings.CertificateLifetimeInSeconds);
             }
 
             return new X509SigningCredentials(_cert, SecurityAlgorithms.RsaSha256);
