@@ -99,7 +99,7 @@ namespace Altinn.AccessToken.Tests
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, -11), "ttd");
+            string accessToken = AccessTokenCreator.GenerateToken(principal, -12, -11, "ttd");
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["PlatformAccessToken"] = accessToken;
@@ -126,7 +126,7 @@ namespace Altinn.AccessToken.Tests
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), "ttd");
+            string accessToken = AccessTokenCreator.GenerateToken(principal, -12, 5, "ttd");
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["PlatformAccessToken"] = accessToken;
@@ -147,6 +147,33 @@ namespace Altinn.AccessToken.Tests
         }
 
         [Fact]
+        public async Task HandleAsyncTest_TokenNotYetValidAndVerificationEnabled_ResultNotSuccessful()
+        {
+            // Arrange
+            AccessTokenSettings accessTokenSettings = new();
+            _options.Setup(s => s.Value).Returns(accessTokenSettings);
+
+            ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
+            string accessToken = AccessTokenCreator.GenerateToken(principal, 15, 20, "ttd");
+
+            DefaultHttpContext httpContext = new DefaultHttpContext();
+            httpContext.Request.Headers["PlatformAccessToken"] = accessToken;
+
+            _httpContextAccessor.Setup(s => s.HttpContext).Returns(httpContext);
+
+            var context = new AuthorizationHandlerContext(_reqs, PrincipalUtil.CreateClaimsPrincipal(), null);
+
+            var target = new AccessTokenHandler(
+                _httpContextAccessor.Object, _logger.Object, _options.Object, _signingKeysResolver);
+
+            // Act
+            await target.HandleAsync(context);
+
+            // Assert
+            Assert.False(context.HasSucceeded);
+        }
+
+        [Fact]
         public async Task HandleAsyncTest_ErrorObtainingKeysAndVerificationEnabled_ResultNotSuccessful()
         {
             // Arrange
@@ -154,7 +181,7 @@ namespace Altinn.AccessToken.Tests
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), "ttd");
+            string accessToken = AccessTokenCreator.GenerateToken(principal, -12, 5, "ttd");
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["PlatformAccessToken"] = accessToken;
@@ -184,7 +211,7 @@ namespace Altinn.AccessToken.Tests
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), "ttd");
+            string accessToken = AccessTokenCreator.GenerateToken(principal, -12, 5, "ttd");
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["PlatformAccessToken"] = accessToken;
@@ -216,7 +243,7 @@ namespace Altinn.AccessToken.Tests
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), tokenIssuer);
+            string accessToken = AccessTokenCreator.GenerateToken(principal, -12, 5, tokenIssuer);
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["PlatformAccessToken"] = accessToken;
@@ -250,7 +277,7 @@ namespace Altinn.AccessToken.Tests
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, 5), tokenIssuer);
+            string accessToken = AccessTokenCreator.GenerateToken(principal, -12, 5, tokenIssuer);
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["PlatformAccessToken"] = accessToken;

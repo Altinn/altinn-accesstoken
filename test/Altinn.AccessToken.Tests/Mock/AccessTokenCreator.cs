@@ -15,14 +15,14 @@ namespace Altinn.AccessToken.Tests.Mock
         /// Generates a token with a self signed certificate included in the test project.
         /// </summary>
         /// <returns>A new token</returns>
-        public static string GenerateToken(ClaimsPrincipal principal, TimeSpan tokenExipry, string issuer)
+        public static string GenerateToken(ClaimsPrincipal principal, int notBeforeSeconds, int expiresSeconds, string issuer)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(principal.Identity),
-                Expires = DateTime.UtcNow.AddSeconds(tokenExipry.TotalSeconds),
-                NotBefore = DateTime.UtcNow.AddSeconds(-12),
+                NotBefore = DateTime.UtcNow.AddSeconds(notBeforeSeconds),
+                Expires = DateTime.UtcNow.AddSeconds(expiresSeconds),
                 SigningCredentials = GetSigningCredentials(issuer),
                 Audience = "altinn.no",
                 Issuer = issuer
