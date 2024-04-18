@@ -22,7 +22,7 @@ namespace Altinn.AccessToken.Tests.Mock
             {
                 Subject = new ClaimsIdentity(principal.Identity),
                 Expires = DateTime.UtcNow.AddSeconds(tokenExipry.TotalSeconds),
-                NotBefore = DateTime.UtcNow.AddSeconds(-10),
+                NotBefore = DateTime.UtcNow.AddSeconds(-12),
                 SigningCredentials = GetSigningCredentials(issuer),
                 Audience = "altinn.no",
                 Issuer = issuer

@@ -99,7 +99,7 @@ namespace Altinn.AccessToken.Tests
             _options.Setup(s => s.Value).Returns(accessTokenSettings);
 
             ClaimsPrincipal principal = PrincipalUtil.CreateClaimsPrincipal();
-            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, -5), "ttd");
+            string accessToken = AccessTokenCreator.GenerateToken(principal, new TimeSpan(0, 0, -11), "ttd");
 
             DefaultHttpContext httpContext = new DefaultHttpContext();
             httpContext.Request.Headers["PlatformAccessToken"] = accessToken;
