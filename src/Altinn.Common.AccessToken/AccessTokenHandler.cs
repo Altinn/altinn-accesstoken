@@ -144,7 +144,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
             ValidateAudience = false,
             RequireExpirationTime = true,
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
+            ClockSkew = new TimeSpan(0, 0, 10)
         };
 
         tokenValidationParameters.IssuerSigningKeys = await _publicSigningKeyProvider.GetSigningKeys(issuer);
