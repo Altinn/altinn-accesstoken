@@ -1,11 +1,10 @@
+using System.Collections.Immutable;
 using System.Security.Claims;
 
 using Altinn.AccessToken.Tests.Mock;
 
 using Altinn.Common.AccessToken;
-using Altinn.Common.AccessToken.Configuration;
-using Altinn.Common.AccessToken.Services;
-
+using Altinn.Common.AccessToken.KeyProvider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -20,7 +19,7 @@ namespace Altinn.AccessToken.Tests
         private readonly Mock<IOptions<AccessTokenSettings>> _options = new();
         private readonly PublicSigningKeyProviderMock _signingKeysResolver = new();
 
-        private readonly List<IAuthorizationRequirement> _reqs = new List<IAuthorizationRequirement>
+        private readonly IReadOnlyList<IAuthorizationRequirement> _reqs = new List<IAuthorizationRequirement>
         {
             new AccessTokenRequirement()
         };
@@ -191,7 +190,7 @@ namespace Altinn.AccessToken.Tests
             var context = new AuthorizationHandlerContext(_reqs, PrincipalUtil.CreateClaimsPrincipal(), null);
 
             var publicKeyProvider = new Mock<IPublicSigningKeyProvider>();
-            publicKeyProvider.Setup(s => s.GetSigningKeys(It.IsAny<string>())).ThrowsAsync(new Exception("omg!"));
+            publicKeyProvider.Setup(s => s.GetSigningKeys(It.IsAny<string>(), It.IsAny<CancellationToken>())).ThrowsAsync(new Exception("omg!"));
 
             var target = new AccessTokenHandler(
                 _httpContextAccessor.Object, _logger.Object, _options.Object, publicKeyProvider.Object);
@@ -221,7 +220,7 @@ namespace Altinn.AccessToken.Tests
             var context = new AuthorizationHandlerContext(_reqs, PrincipalUtil.CreateClaimsPrincipal(), null);
 
             var publicKeyProvider = new Mock<IPublicSigningKeyProvider>();
-            publicKeyProvider.Setup(s => s.GetSigningKeys(It.IsAny<string>())).ThrowsAsync(new Exception("omg!"));
+            publicKeyProvider.Setup(s => s.GetSigningKeys(It.IsAny<string>(), It.IsAny<CancellationToken>())).ThrowsAsync(new Exception("omg!"));
 
             var target = new AccessTokenHandler(
                 _httpContextAccessor.Object, _logger.Object, _options.Object, publicKeyProvider.Object);
@@ -286,7 +285,7 @@ namespace Altinn.AccessToken.Tests
 
             List<IAuthorizationRequirement> reqsWithSingleSpecifiedIssuer = new List<IAuthorizationRequirement>
             {
-                new AccessTokenRequirement(specifiedTokenIssuers)
+                new AccessTokenRequirement(specifiedTokenIssuers.ToImmutableArray())
             };
 
             var context = new AuthorizationHandlerContext(reqsWithSingleSpecifiedIssuer, PrincipalUtil.CreateClaimsPrincipal(), null);

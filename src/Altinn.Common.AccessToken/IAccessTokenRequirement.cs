@@ -1,5 +1,4 @@
-#nullable enable
-
+using System.Collections.Immutable;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Altinn.Common.AccessToken;
@@ -12,5 +11,5 @@ public interface IAccessTokenRequirement : IAuthorizationRequirement
     /// <summary>
     /// Gets the list of approved issuers to validate against.
     /// </summary>
-    public string[] ApprovedIssuers { get; }
+    public ImmutableArray<string> ApprovedIssuers { get; }
 }

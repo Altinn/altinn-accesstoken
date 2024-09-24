@@ -1,6 +1,4 @@
-#nullable enable
-
-namespace Altinn.Common.AccessToken.Configuration;
+namespace Altinn.Common.AccessToken;
 
 /// <summary>
 /// Settings for access token
@@ -10,7 +8,7 @@ public class AccessTokenSettings
     /// <summary>
     /// Disable access token verification
     /// </summary>
-    public bool DisableAccessTokenVerification { get; set;  }
+    public bool DisableAccessTokenVerification { get; set; }
 
     /// <summary>
     /// The Access token headerId

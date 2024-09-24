@@ -1,6 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
-
-using Altinn.Common.AccessToken.Services;
+using Altinn.Common.AccessToken.KeyProvider;
 
 using Microsoft.IdentityModel.Tokens;
 
@@ -8,7 +7,7 @@ namespace Altinn.AccessToken.Tests.Mock
 {
     public class PublicSigningKeyProviderMock : IPublicSigningKeyProvider
     {
-        public Task<IEnumerable<SecurityKey>> GetSigningKeys(string issuer)
+        public Task<IEnumerable<SecurityKey>> GetSigningKeys(string issuer, CancellationToken cancellationToken = default)
         {
             List<SecurityKey> signingKeys = new List<SecurityKey>();
 

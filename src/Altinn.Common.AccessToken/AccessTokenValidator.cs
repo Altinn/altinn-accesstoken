@@ -1,16 +1,17 @@
 using System;
+using System.Collections;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
-
+using Altinn.Common.AccessToken.KeyProvider;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Altinn.Common.AccessToken.Services;
+namespace Altinn.Common.AccessToken;
 
 /// <summary>
 /// Service for access token validation
 /// </summary>
-public class AccessTokenValidator : IAccessTokenValidator
+internal class AccessTokenValidator : IAccessTokenValidator
 {
     private readonly IPublicSigningKeyProvider _publicSigningKeyProvider;
     private readonly ILogger<IAccessTokenValidator> _logger;
@@ -54,7 +55,7 @@ public class AccessTokenValidator : IAccessTokenValidator
         return false;
     }
 
-    private async Task<TokenValidationParameters> GetTokenValidationParameters(string issuer)
+    private async ValueTask<TokenValidationParameters> GetTokenValidationParameters(string issuer)
     {
         TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
         {

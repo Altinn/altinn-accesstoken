@@ -1,5 +1,7 @@
-using Altinn.Common.AccessToken.Services;
+using Altinn.Common.AccessToken;
+using Altinn.Common.AccessToken.KeyProvider;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Altinn.AccessToken.Tests;
 
@@ -12,7 +14,7 @@ public class AccessTokenValidatorTests
         Mock<IPublicSigningKeyProvider> signingKeyProviderMock = new Mock<IPublicSigningKeyProvider>();
         Mock<ILogger<AccessTokenValidator>> loggerMock = new Mock<ILogger<AccessTokenValidator>>();
 
-        var target = new AccessTokenValidator(signingKeyProviderMock.Object, loggerMock.Object);
+        var target = new AccessTokenValidator(signingKeyProviderMock.Object, NullLogger<AccessTokenValidator>.Instance);
 
         // Act
         bool result = await target.Validate("notatoken");

@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Altinn.Common.AccessToken.Services;
+namespace Altinn.Common.AccessToken;
 
 /// <summary>
 /// Defines the methods required for an implementation of an access token validator.

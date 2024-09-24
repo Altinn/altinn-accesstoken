@@ -1,4 +1,5 @@
-#nullable enable
+using System;
+using System.Collections.Immutable;
 
 namespace Altinn.Common.AccessToken;
 
@@ -10,14 +11,14 @@ public class AccessTokenRequirement : IAccessTokenRequirement
     /// <summary>
     /// Gets the list of approved issuers to validate against.
     /// </summary>
-    public string[] ApprovedIssuers { get; }
+    public ImmutableArray<string> ApprovedIssuers { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AccessTokenRequirement"/> class with no specified issuer.
     /// </summary>
     public AccessTokenRequirement()
     {
-        ApprovedIssuers = new string[] { };
+        ApprovedIssuers = ImmutableArray<string>.Empty;
     }
 
     /// <summary>
@@ -26,14 +27,24 @@ public class AccessTokenRequirement : IAccessTokenRequirement
     /// <param name="issuer">The issuer to validate against.</param>
     public AccessTokenRequirement(string issuer)
     {
-        ApprovedIssuers = new string[] { issuer };
+        ApprovedIssuers = ImmutableArray.Create(issuer);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AccessTokenRequirement"/> class with multiple approved issuers.
     /// </summary>
     /// <param name="approvedIssuers">The list of approved issuers to validate against.</param>
+    [Obsolete("Use the constructor that takes ImmutableArray<string> instead.")]
     public AccessTokenRequirement(string[] approvedIssuers)
+        : this(ImmutableArray.CreateRange(approvedIssuers))
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AccessTokenRequirement"/> class with multiple approved issuers.
+    /// </summary>
+    /// <param name="approvedIssuers">The list of approved issuers to validate against.</param>
+    public AccessTokenRequirement(ImmutableArray<string> approvedIssuers)
     {
         ApprovedIssuers = approvedIssuers;
     }

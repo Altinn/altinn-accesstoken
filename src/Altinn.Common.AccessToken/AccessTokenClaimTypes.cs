@@ -1,6 +1,4 @@
-#nullable enable
-
-namespace Altinn.Common.AccessToken.Constants;
+namespace Altinn.Common.AccessToken;
 
 /// <summary>
 /// Claimtypes used in access token
