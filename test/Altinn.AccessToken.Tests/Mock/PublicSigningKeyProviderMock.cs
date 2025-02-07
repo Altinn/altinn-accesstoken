@@ -12,7 +12,13 @@ namespace Altinn.AccessToken.Tests.Mock
         {
             List<SecurityKey> signingKeys = new List<SecurityKey>();
 
+#if NET9_0_OR_GREATER
+            X509Certificate2 cert = X509CertificateLoader.LoadCertificateFromFile($"{issuer}-org.pem");
+#elif NET8_0 
             X509Certificate2 cert = new X509Certificate2($"{issuer}-org.pem");
+#else 
+#error This code block does not match csproj TargetFrameworks list
+#endif
             SecurityKey key = new X509SecurityKey(cert);
 
             signingKeys.Add(key);
