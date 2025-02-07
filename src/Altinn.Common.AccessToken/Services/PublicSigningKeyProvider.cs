@@ -83,7 +83,14 @@ public class PublicSigningKeyProvider : IPublicSigningKeyProvider
             KeyVaultSecret keyVaultSecret = await _secretClient.GetSecretAsync(secretName);
 
             byte[] certBytes = Convert.FromBase64String(keyVaultSecret.Value);
+
+#if NET9_0_OR_GREATER
+            cert = X509CertificateLoader.LoadCertificate(certBytes);
+#elif NET8_0
             cert = new X509Certificate2(certBytes);
+#else
+#error This code block does not match csproj TargetFrameworks list
+#endif
 
             MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
            .SetPriority(CacheItemPriority.High)
