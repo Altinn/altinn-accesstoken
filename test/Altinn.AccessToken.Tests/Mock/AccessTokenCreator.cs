@@ -38,7 +38,13 @@ namespace Altinn.AccessToken.Tests.Mock
         {
             string certPath = $"{issuer}-org.pfx";
 
+#if NET9_0_OR_GREATER
+            X509Certificate2 cert = X509CertificateLoader.LoadPkcs12FromFile(certPath, string.Empty);
+#elif NET8_0
             X509Certificate2 cert = new X509Certificate2(certPath);
+#else
+#error This code block does not match csproj TargetFrameworks list
+#endif
             return new X509SigningCredentials(cert, SecurityAlgorithms.RsaSha256);
         }
     }
