@@ -6,7 +6,7 @@ namespace Altinn.Common.AccessTokenClient.Configuration
     public class AccessTokenSettings
     {
         /// <summary>
-        /// The folder where the signing keys are stored. 
+        /// The optional base path for the folder where the signing keys are stored. 
         /// </summary>
         public string AccessTokenSigningKeysBasePath { get; set; } = null;
 
