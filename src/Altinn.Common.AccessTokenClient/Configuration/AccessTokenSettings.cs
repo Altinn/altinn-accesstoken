@@ -6,6 +6,11 @@ namespace Altinn.Common.AccessTokenClient.Configuration
     public class AccessTokenSettings
     {
         /// <summary>
+        /// The absolute path of the access token signing certificate including file name. Optional.
+        /// </summary>
+        public string AccessTokenSigningCertificateFullPath { get; set; } = null;
+
+        /// <summary>
         /// The folder where the signing keys are stored. 
         /// </summary>
         public string AccessTokenSigningKeysFolder { get; set; } = "accesstoken/";

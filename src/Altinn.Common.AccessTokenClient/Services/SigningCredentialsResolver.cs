@@ -42,8 +42,17 @@ namespace Altinn.Common.AccessTokenClient.Services
                 {
                     if (_x509SigningCredentials == null)
                     {
-                        string basePath = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
-                        string certPath = basePath + $"{accessTokenSettings.AccessTokenSigningKeysFolder}{accessTokenSettings.AccessTokenSigningCertificateFileName}";
+                        string certPath;
+                        if (!string.IsNullOrEmpty(accessTokenSettings.AccessTokenSigningCertificateFullPath))
+                        {
+                            certPath = accessTokenSettings.AccessTokenSigningCertificateFullPath;
+                        }
+                        else
+                        {
+                            string basePath = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+                            certPath = Path.Combine(basePath, accessTokenSettings.AccessTokenSigningKeysFolder, accessTokenSettings.AccessTokenSigningCertificateFileName);
+                        }
+
                         X509Certificate2 cert = new X509Certificate2(certPath);
                         _x509SigningCredentials = new X509SigningCredentials(cert, SecurityAlgorithms.RsaSha256);
                     }
