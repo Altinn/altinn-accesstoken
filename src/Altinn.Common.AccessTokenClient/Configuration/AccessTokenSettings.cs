@@ -11,7 +11,7 @@ namespace Altinn.Common.AccessTokenClient.Configuration
         public string AccessTokenSigningCertificateFullPath { get; set; } = null;
 
         /// <summary>
-        /// The folder where the signing keys are stored. 
+        /// The folder where the signing keys are stored. Cannot be null or only "/". Use empty string for current directory.
         /// </summary>
         public string AccessTokenSigningKeysFolder { get; set; } = "accesstoken/";
 
