@@ -64,7 +64,7 @@ public class AccessTokenHandler : AuthorizationHandler<IAccessTokenRequirement>
 
         if (tokens.Count == 0)
         {
-            _logger.LogInformation("There is no access token");
+            _logger.LogDebug("There is no access token");
             return;
         }
         
