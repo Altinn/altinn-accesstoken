@@ -1,6 +1,5 @@
 name: Code test and analysis (fork)
-permissions:
-  contents: read
+permissions: {}
 on:
   push:
     branches: [main]
