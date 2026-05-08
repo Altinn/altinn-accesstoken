@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="CONTRIBUTING.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="LICENSE.md" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Altinn.Common.AccessToken/Altinn.Common.AccessToken.csproj" />
+    <Project Path="src/Altinn.Common.AccessTokenClient/Altinn.Common.AccessTokenClient.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Altinn.AccessToken.Tests/Altinn.AccessToken.Tests.csproj" />
+  </Folder>
+</Solution>
