@@ -4,9 +4,9 @@ permissions:
   checks: write
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
     types: [opened, synchronize, reopened]
 jobs:
   build-and-test:
@@ -23,8 +23,8 @@ jobs:
             9.0.x
       - name: Build & Test
         run: |
-           dotnet build Altinn.Common.AccessToken.sln -v m
-           dotnet test Altinn.Common.AccessToken.sln -v m
+          dotnet build Altinn.Common.AccessToken.sln -v m
+          dotnet test Altinn.Common.AccessToken.sln -v m
   analyze:
     if: ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) || github.event_name == 'push') && github.repository_owner == 'Altinn'
     name: Analyze
@@ -43,18 +43,18 @@ jobs:
           java-version: 17
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Install SonarCloud scanner
         shell: powershell
         run: |
           dotnet tool install --global dotnet-sonarscanner
       - name: Analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          dotnet-sonarscanner begin /k:"Altinn_altinn-accesstoken" /o:"altinn" /d:sonar.login="$SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="src/**/Program.cs"
+          dotnet-sonarscanner begin /k:"Altinn_altinn-accesstoken" /o:"altinn" /d:sonar.login="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths="**/*.trx" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" /d:sonar.coverage.exclusions="src/**/Program.cs"
 
           dotnet build Altinn.Common.AccessToken.sln
           dotnet test Altinn.Common.AccessToken.sln `
@@ -63,4 +63,4 @@ jobs:
           --collect:"XPlat Code Coverage" `
           -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
-          dotnet-sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+          dotnet-sonarscanner end /d:sonar.login="$env:SONAR_TOKEN"
