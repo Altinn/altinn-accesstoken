@@ -11,7 +11,7 @@
     <PackageId>Altinn.Common.AccessToken</PackageId>
     <PackageTags>Altinn;AccessToken</PackageTags>
     <Description>
-      Package to verify Access Tokens from client. Require public certificates stored in Azure KeyVault.
+      Package to verify Access Tokens from client. Reads public certificates from Azure KeyVault, or from a local file when no key vault is configured.
     </Description>
     <PackageReleaseNotes>
     </PackageReleaseNotes>
