@@ -11,6 +11,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write # nuget.org trusted publishing exchanges the GitHub OIDC token for a short-lived API key
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -31,20 +32,37 @@ jobs:
         run: |
           cd src/Altinn.Common.AccessTokenClient
           dotnet build --configuration Release --no-restore -p:Deterministic=true -p:BuildNumber=${{ github.run_number }}
+      - name: Log in to nuget.org
+        if: startsWith(github.ref, 'refs/tags/Altinn.Common.AccessTokenClient-')
+        id: nuget_login_1
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ vars.NUGET_USER }}
       - name: Pack and publish AccessTokenClient
         if: startsWith(github.ref, 'refs/tags/Altinn.Common.AccessTokenClient-')
+        env:
+          NUGET_API_KEY: ${{ steps.nuget_login_1.outputs.NUGET_API_KEY }}
         run: |
           cd src/Altinn.Common.AccessTokenClient
           dotnet pack Altinn.Common.AccessTokenClient.csproj --configuration Release --no-restore --no-build -p:BuildNumber=${{ github.run_number }} -p:Deterministic=true
-          dotnet nuget push bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+          dotnet nuget push bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "${NUGET_API_KEY}"
+
       - name: Build AccessToken
         if: startsWith(github.ref, 'refs/tags/Altinn.Common.AccessToken-')
         run: |
           cd src/Altinn.Common.AccessToken
           dotnet build --configuration Release --no-restore -p:Deterministic=true -p:BuildNumber=${{ github.run_number }}
+      - name: Log in to nuget.org
+        if: startsWith(github.ref, 'refs/tags/Altinn.Common.AccessToken-')
+        id: nuget_login_2
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ vars.NUGET_USER }}
       - name: Pack and publish AccessToken
         if: startsWith(github.ref, 'refs/tags/Altinn.Common.AccessToken-')
+        env:
+          NUGET_API_KEY: ${{ steps.nuget_login_2.outputs.NUGET_API_KEY }}
         run: |
           cd src/Altinn.Common.AccessToken
           dotnet pack Altinn.Common.AccessToken.csproj --configuration Release --no-restore --no-build -p:BuildNumber=${{ github.run_number }} -p:Deterministic=true
-          dotnet nuget push bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+          dotnet nuget push bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "${NUGET_API_KEY}"
