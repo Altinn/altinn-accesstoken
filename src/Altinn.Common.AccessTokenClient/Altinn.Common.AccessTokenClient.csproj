@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Runtime.Caching" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="11.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="8.23.0" />
   </ItemGroup>
 
